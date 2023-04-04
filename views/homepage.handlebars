@@ -2,8 +2,10 @@
 <div class="card mt-4">
   <header class="card-header">
     <div class="p-5">
-      <h1 class="is-size-4">{{post.title}}</h1>
+      <h1 class="is-size-4"><a href="/post/{{post.id}}">{{post.title}}</a></h1>
+      {{!-- <h1 class="is-size-4">{{post.title}}</h1> --}}
       <p>By: {{post.user.name}}</p>
+      <p>Created on: {{format_date post.date_created}}</p>
     </div>
     
     <button class="card-header-icon" aria-label="more options">

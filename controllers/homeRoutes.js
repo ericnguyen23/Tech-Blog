@@ -28,30 +28,30 @@ router.get("/", async (req, res) => {
   }
 });
 
-// // Single project route
-// router.get("/project/:id", async (req, res) => {
-//   try {
-//     // gets project data with User info
-//     const projectData = await Project.findByPk(req.params.id, {
-//       include: [
-//         {
-//           model: User,
-//           attributes: ["name"],
-//         },
-//       ],
-//     });
-//     // serialize
-//     const project = projectData.get({ plain: true });
-//     // render to hanlebar's project template
-//     res.render("project", {
-//       // spread all projects vars
-//       ...project,
-//       logged_in: req.session.logged_in,
-//     });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
+// Single blog post route
+router.get("/post/:id", async (req, res) => {
+  try {
+    // gets blog post data with User info
+    const blogPostData = await BlogPost.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          attributes: ["name"],
+        },
+      ],
+    });
+    // serialize
+    const blogPost = blogPostData.get({ plain: true });
+    // render to hanlebar's post template
+    res.render("post", {
+      // spread all blogPosts vars
+      ...blogPost,
+      logged_in: req.session.logged_in,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 // // Use withAuth middleware to prevent access to route
 // router.get("/dashboard", withAuth, async (req, res) => {
