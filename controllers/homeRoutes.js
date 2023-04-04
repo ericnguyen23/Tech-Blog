@@ -1,6 +1,6 @@
 const router = require("express").Router();
 // const { Project, User } = require("../models");
-// const withAuth = require("../utils/auth");
+const withAuth = require("../utils/auth");
 
 // home route
 router.get("/", async (req, res) => {
@@ -54,12 +54,12 @@ router.get("/", async (req, res) => {
 // });
 
 // // Use withAuth middleware to prevent access to route
-// router.get("/profile", withAuth, async (req, res) => {
+// router.get("/dashboard", withAuth, async (req, res) => {
 //   try {
 //     // Find the logged in user based on the session ID
 //     const userData = await User.findByPk(req.session.user_id, {
 //       attributes: { exclude: ["password"] },
-//       include: [{ model: Project }],
+//       // include: [{ model: Project }],
 //     });
 
 //     const user = userData.get({ plain: true });
@@ -101,6 +101,16 @@ router.get("/dashboard", (req, res) => {
   // }
 
   res.render("dashboard");
+});
+
+router.get("/profile", (req, res) => {
+  // // If the user is already logged in, redirect the request to another route
+  // if (req.session.logged_in) {
+  //   res.redirect("/profile");
+  //   return;
+  // }
+
+  res.render("profile");
 });
 
 module.exports = router;
