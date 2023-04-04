@@ -8,6 +8,7 @@ router.post("/", withAuth, async (req, res) => {
     const newBlogPost = await Comment.create({
       ...req.body,
       user_id: req.session.user_id,
+      // Set blog id?
     });
 
     res.status(200).json(newBlogPost);
