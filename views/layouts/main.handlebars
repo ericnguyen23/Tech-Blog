@@ -29,15 +29,22 @@
         <a class="navbar-item" href="./dashboard">
           Dashboard
         </a>
-        <a id="logout" class="navbar-item">
-          Logout
+
+        <a class="navbar-item" href="./profile">
+          Profile
+        </a>
+        
+        <a class="navbar-item" href="./signup">
+          Sign Up
         </a>
         <a class="navbar-item" href="./login">
           Login
         </a>
-        <a class="navbar-item" href="./signup">
-          Sign Up
+        {{#if logged_in}}
+        <a id="logout" class="navbar-item" href="/">
+          Logout
         </a>
+        {{/if}}
       </div>
     </div>
   </nav>

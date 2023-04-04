@@ -83,14 +83,23 @@ router.get("/signup", (req, res) => {
   res.render("signup");
 });
 
-router.get("/dashboard", (req, res) => {
-  // // If the user is already logged in, redirect the request to another route
-  // if (req.session.logged_in) {
-  //   res.redirect("/profile");
-  //   return;
-  // }
+router.get("/dashboard", async (req, res) => {
+  try {
+    // Find the logged in user based on the session ID
+    const userData = await User.findByPk(req.session.user_id, {
+      attributes: { exclude: ["password"] },
+      // include: [{ model: Project }],
+    });
 
-  res.render("dashboard");
+    const user = userData.get({ plain: true });
+    // render user information in handlebar's profile tempalte
+    res.render("dashboard", {
+      ...user,
+      logged_in: true,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 // Use withAuth middleware to prevent access to route
