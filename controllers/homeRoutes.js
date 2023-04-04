@@ -53,26 +53,30 @@ router.get("/commentspage", async (req, res) => {
   }
 });
 
-// // view comments for a given post
-// router.get("/comments", async (res, req) => {
-//   try {
-//     // Get all projects and JOIN with user data
-//     const commentData = await Comment.findAll();
-
-//     // Serialize data so the template can read it
-//     const comments = commentData.map((post) => post.get({ plain: true }));
-
-//     // Pass serialized data and session flag into template
-//     res.render("comments", {
-//       comments,
-//       logged_in: req.session.logged_in,
-//     });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-
-//   res.render("comments");
-// });
+// Single blog post route
+router.get("/postcomments/:id", async (req, res) => {
+  try {
+    // gets blog post data with User info
+    const commentData = await Comment.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          attributes: ["name"],
+        },
+      ],
+    });
+    // serialize
+    const comments = commentData.get({ plain: true });
+    // render to hanlebar's post template
+    res.render("postcomments", {
+      // spread all commentss vars
+      ...comments,
+      logged_in: req.session.logged_in,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 // Single blog post route
 router.get("/post/:id", async (req, res) => {
