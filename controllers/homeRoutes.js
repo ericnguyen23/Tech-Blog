@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { User, BlogPost } = require("../models");
+const { User, BlogPost, Comment } = require("../models");
 const withAuth = require("../utils/auth");
 
 // home route
@@ -28,9 +28,67 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/commentspage", async (req, res) => {
+  try {
+    // Get all projects and JOIN with user data
+    const commentData = await Comment.findAll({
+      include: [
+        {
+          model: BlogPost,
+          attributes: ["title"],
+        },
+      ],
+    });
+
+    // Serialize data so the template can read it
+    const comments = commentData.map((post) => post.get({ plain: true }));
+
+    // Pass serialized data and session flag into template
+    res.render("comments", {
+      comments,
+      logged_in: req.session.logged_in,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// // view comments for a given post
+// router.get("/comments", async (res, req) => {
+//   try {
+//     // Get all projects and JOIN with user data
+//     const commentData = await Comment.findAll();
+
+//     // Serialize data so the template can read it
+//     const comments = commentData.map((post) => post.get({ plain: true }));
+
+//     // Pass serialized data and session flag into template
+//     res.render("comments", {
+//       comments,
+//       logged_in: req.session.logged_in,
+//     });
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+
+//   res.render("comments");
+// });
+
 // Single blog post route
 router.get("/post/:id", async (req, res) => {
   try {
+    // // Get all comments
+    // const commentsData = await Comment.findAll({
+    //   include: [
+    //     {
+    //       model: User,
+    //       attributes: ["name"],
+    //     },
+    //   ],
+    // });
+    // // serialize
+    // const comments = commentsData.get({ plain: true });
+
     // gets blog post data with User info
     const blogPostData = await BlogPost.findByPk(req.params.id, {
       include: [
