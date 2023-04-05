@@ -28,46 +28,46 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/commentspage", async (req, res) => {
-  try {
-    // Get all projects and JOIN with user data
-    const commentData = await Comment.findAll({
-      include: [
-        {
-          model: BlogPost,
-          attributes: ["title"],
-        },
-      ],
-    });
+// router.get("/commentspage", async (req, res) => {
+//   try {
+//     // Get all projects and JOIN with user data
+//     const commentData = await Comment.findAll({
+//       include: [
+//         {
+//           model: BlogPost,
+//           attributes: ["title"],
+//         },
+//       ],
+//     });
 
-    // Serialize data so the template can read it
-    const comments = commentData.map((post) => post.get({ plain: true }));
+//     // Serialize data so the template can read it
+//     const comments = commentData.map((post) => post.get({ plain: true }));
 
-    // Pass serialized data and session flag into template
-    res.render("comments", {
-      comments,
-      logged_in: req.session.logged_in,
-    });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+//     // Pass serialized data and session flag into template
+//     res.render("comments", {
+//       comments,
+//       logged_in: req.session.logged_in,
+//     });
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
-// Single blog post route
+// Single comment post route
 router.get("/postcomments/:id", async (req, res) => {
   try {
-    // gets blog post data with User info
+    // gets comments data with blog info
     const commentData = await Comment.findByPk(req.params.id, {
       include: [
         {
-          model: User,
-          attributes: ["name"],
+          model: BlogPost,
         },
       ],
     });
     // serialize
     const comments = commentData.get({ plain: true });
     // render to hanlebar's post template
+    console.log(comments);
     res.render("postcomments", {
       // spread all commentss vars
       ...comments,
@@ -98,11 +98,9 @@ router.get("/post/:id", async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ["name"],
         },
         // {
         //   model: Comment,
-        //   attributes: ["title"],
         // },
       ],
     });

@@ -1,5 +1,11 @@
+
+
 <div class="box">
+  {{#each comment}}
+  comments: {{comment.comment}}
+  {{/each}}
   <div class="text-center">
+    <h2 class="is-size-3">"Comments for: {{blogpost.title}}"</h2>
     <h2 class="is-size-4">"{{comment}}"</h2>
     <p>Created by {{user.name}}  on {{format_date date_created}}</p>
     {{!-- <p class="mt-5">{{body}}</p> --}}

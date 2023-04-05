@@ -6,11 +6,6 @@
   </div>
 
   <hr />
-  <h1 class="is-size-5 mt-5">Comments</h1>
-  {{!-- {{comment.comment}} --}}
-  {{!-- {{#each comment}}
-    <p>{{comment.comment}}</p>
-  {{/each}} --}}
 
   <form class="form comment-form mt-5">
     <div class="form-group">
@@ -23,6 +18,12 @@
   </form>
 
   <h1 class="is-size-4"><a href="/postcomments/{{id}}">View comments for this post</a></h1>
+  <hr />
+  <h1 class="is-size-5 mt-5">All Comments</h1>
+  {{comment.comment}}
+  {{!-- {{#each comment}}
+  <p>{{comment.comment}}</p>
+  {{/each}} --}}
 
 </div>
 
