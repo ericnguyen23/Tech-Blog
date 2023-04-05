@@ -28,31 +28,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// router.get("/commentspage", async (req, res) => {
-//   try {
-//     // Get all projects and JOIN with user data
-//     const commentData = await Comment.findAll({
-//       include: [
-//         {
-//           model: BlogPost,
-//           attributes: ["title"],
-//         },
-//       ],
-//     });
-
-//     // Serialize data so the template can read it
-//     const comments = commentData.map((post) => post.get({ plain: true }));
-
-//     // Pass serialized data and session flag into template
-//     res.render("comments", {
-//       comments,
-//       logged_in: req.session.logged_in,
-//     });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-
 router.get("/comments", async (req, res) => {
   try {
     // Get all projects and JOIN with user data

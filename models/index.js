@@ -15,11 +15,6 @@ BlogPost.hasMany(Comment, {
   foreignKey: "comment_id",
 });
 
-// BlogPost.belongsToMany(User, {
-//   through: Comment,
-//   foreignKey: "blog_id",
-// });
-
 Comment.belongsTo(BlogPost, {
   foreignKey: "blog_id",
 });
