@@ -20,10 +20,11 @@
   <h1 class="is-size-4"><a href="/postcomments/{{id}}">View comments for this post</a></h1>
   <hr />
   <h1 class="is-size-5 mt-5">All Comments</h1>
-  {{comment.comment}}
-  {{!-- {{#each comment}}
+  {{!-- {{comment.comment}} --}}
+  {{#each filteredComments as |comment|}}
+  <h1 class="is-size-4">{{comment.blogpost.title}}</h1>
   <p>{{comment.comment}}</p>
-  {{/each}} --}}
+  {{/each}}
 
 </div>
 

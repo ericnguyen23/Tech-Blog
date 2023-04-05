@@ -56,17 +56,16 @@ router.get("/", async (req, res) => {
 router.get("/comments", async (req, res) => {
   try {
     // Get all projects and JOIN with user data
-    const commentData = await Comment.findAll();
-    // include: [
-    //   {
-    //     model: User,
-    //     attributes: ["name"],
-    //   },
-    // ],
+    const commentData = await Comment.findAll({
+      include: [
+        {
+          model: BlogPost,
+        },
+      ],
+    });
 
     // Serialize data so the template can read it
     const comments = commentData.map((comment) => comment.get({ plain: true }));
-    console.log(comments);
     // Pass serialized data and session flag into template
     res.render("comments", {
       comments,
@@ -80,17 +79,19 @@ router.get("/comments", async (req, res) => {
 // Single blog post route
 router.get("/post/:id", async (req, res) => {
   try {
-    // // Get all comments
-    // const commentsData = await Comment.findAll({
-    //   include: [
-    //     {
-    //       model: User,
-    //       attributes: ["name"],
-    //     },
-    //   ],
-    // });
-    // // serialize
-    // const comments = commentsData.get({ plain: true });
+    // get all comments and include BlogPost
+    const commentData = await Comment.findAll({
+      include: [
+        {
+          model: BlogPost,
+        },
+      ],
+    });
+    const comments = commentData.map((comment) => comment.get({ plain: true }));
+
+    const filteredComments = comments.filter(
+      (comment) => comment.blog_id === 1
+    );
 
     // gets blog post data with User info
     const blogPostData = await BlogPost.findByPk(req.params.id, {
@@ -98,17 +99,16 @@ router.get("/post/:id", async (req, res) => {
         {
           model: User,
         },
-        // {
-        //   model: Comment,
-        // },
       ],
     });
-    // serialize
     const blogPost = blogPostData.get({ plain: true });
+
     // render to hanlebar's post template
     res.render("post", {
       // spread all blogPosts vars
       ...blogPost,
+      // pass in comments
+      filteredComments,
       logged_in: req.session.logged_in,
     });
   } catch (err) {
