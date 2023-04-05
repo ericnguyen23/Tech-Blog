@@ -18,6 +18,7 @@ This application provides a platform for tech bloggers the ability to post and c
 
 ### Deployed Site
 
+[Tech Blog](https://thenewtechblogger.herokuapp.com/)
 
 ### Screenshot of the project
 
