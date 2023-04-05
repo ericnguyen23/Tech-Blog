@@ -14,7 +14,7 @@ const commentHandler = async (event) => {
     });
 
     if (response.ok) {
-      document.location.replace("/dashboard");
+      document.location.replace(`/post/${blog_id}`);
     } else {
       alert("Failed to create a commnet");
     }

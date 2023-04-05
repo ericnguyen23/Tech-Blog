@@ -8,20 +8,19 @@
   <hr />
 
   <form class="form comment-form mt-5">
-    <div class="form-group">
+    <div>
       <label for="project-desc">Comment:</label>
-      <textarea class="form-input" id="comment" name="comment"></textarea>
+      <textarea class="form-input textarea" id="comment" name="comment"></textarea>
     </div>
-    <div class="form-group">
-      <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="mt-5">
+      <button type="submit" class="button is-info">Submit</button>
     </div>
   </form>
 
   <hr />
   <h1 class="is-size-5 mt-5">All Comments:</h1>
   {{#each filteredComments as |comment|}}
-  <h1 class="is-size-4">{{comment.blogpost.title}}</h1>
-  <p>{{comment.comment}}</p>
+  <p>"{{comment.comment}}"</p>
   {{/each}}
 
 </div>
