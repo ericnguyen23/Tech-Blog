@@ -79,6 +79,15 @@ router.get("/comments", async (req, res) => {
 // Single blog post route
 router.get("/post/:id", async (req, res) => {
   try {
+    // gets blog post data with User info
+    const blogPostData = await BlogPost.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+        },
+      ],
+    });
+    const blogPost = blogPostData.get({ plain: true });
     // get all comments and include BlogPost
     const commentData = await Comment.findAll({
       include: [
@@ -90,18 +99,8 @@ router.get("/post/:id", async (req, res) => {
     const comments = commentData.map((comment) => comment.get({ plain: true }));
 
     const filteredComments = comments.filter(
-      (comment) => comment.blog_id === 1
+      (comment) => comment.blog_id === blogPost.id
     );
-
-    // gets blog post data with User info
-    const blogPostData = await BlogPost.findByPk(req.params.id, {
-      include: [
-        {
-          model: User,
-        },
-      ],
-    });
-    const blogPost = blogPostData.get({ plain: true });
 
     // render to hanlebar's post template
     res.render("post", {
