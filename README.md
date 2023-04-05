@@ -22,7 +22,7 @@ This application provides a platform for tech bloggers the ability to post and c
 
 ### Screenshot of the project
 
-![screenshot](./image/screenshot-new.png)
+![screenshot](./image/screenshot.png)
 
 ## Credits
 
