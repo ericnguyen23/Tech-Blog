@@ -53,25 +53,24 @@ router.get("/", async (req, res) => {
 //   }
 // });
 
-// Single comment post route
-router.get("/postcomments/:id", async (req, res) => {
+router.get("/comments", async (req, res) => {
   try {
-    // gets comments data with blog info
-    const commentData = await Comment.findByPk(req.params.id, {
-      include: [
-        {
-          model: BlogPost,
-        },
-      ],
-    });
-    // serialize
-    const comments = commentData.get({ plain: true });
-    // render to hanlebar's post template
+    // Get all projects and JOIN with user data
+    const commentData = await Comment.findAll();
+    // include: [
+    //   {
+    //     model: User,
+    //     attributes: ["name"],
+    //   },
+    // ],
+
+    // Serialize data so the template can read it
+    const comments = commentData.map((comment) => comment.get({ plain: true }));
     console.log(comments);
-    res.render("postcomments", {
-      // spread all commentss vars
-      ...comments,
-      logged_in: req.session.logged_in,
+    // Pass serialized data and session flag into template
+    res.render("comments", {
+      comments,
+      // logged_in: req.session.logged_in,
     });
   } catch (err) {
     res.status(500).json(err);
@@ -116,26 +115,6 @@ router.get("/post/:id", async (req, res) => {
     res.status(500).json(err);
   }
 });
-
-// // Use withAuth middleware to prevent access to route
-// router.get("/dashboard", withAuth, async (req, res) => {
-//   try {
-//     // Find the logged in user based on the session ID
-//     const userData = await User.findByPk(req.session.user_id, {
-//       attributes: { exclude: ["password"] },
-//       // include: [{ model: Project }],
-//     });
-
-//     const user = userData.get({ plain: true });
-//     // render user information in handlebar's profile tempalte
-//     res.render("profile", {
-//       ...user,
-//       logged_in: true,
-//     });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
 
 router.get("/signup", (req, res) => {
   if (req.session.logged_in) {
